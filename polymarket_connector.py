@@ -2,7 +2,6 @@ import requests
 import json
 import re
 from typing import List, Dict, Optional, Tuple, Union
-from components import Ticker, Trade, Ledger
 
 
 BASE_URL = "https://gamma-api.polymarket.com/events/slug"
@@ -53,7 +52,7 @@ def fetchBetsForDate(date_slug: str) -> List[Dict]:
     - Calls the Polymarket API
     - Returns a list of bet dicts
     """
-    slug = build_slug(date_slug)
+    slug = buildSlug(date_slug)
     url = f"{BASE_URL}/{slug}"
 
     response = requests.get(url)
@@ -89,28 +88,3 @@ def fetchBetsForDate(date_slug: str) -> List[Dict]:
     return bets
 
 
-def buildPriceMap(bets: List[Dict]):
-    # {str: [yesPrice, noPrice]}
-    resp = {}
-    for bet in bets:
-        if bet["app"]:
-            resp[bet["app"]] = [bet["yesOutcome"], bet["noOutcome"]]
-    return resp
-
-
-def refreshLedger(
-    ledger: Ledger,
-    date_slug: str,
-    timestamp: float,
-) -> None:
-    """
-    Example "one-shot" helper to show how it wires together:
-
-    - Fetch all markets for the given date
-    - Build a price_map
-    - Update the ledger's trades against those prices
-    """
-    bets = fetchBetsForDate(date_slug)
-    price_map = buildPriceMap(bets)
-
-    ledger.updateLedger(price_map=price_map, injected_capital=0.0)
