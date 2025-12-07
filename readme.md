@@ -1,7 +1,7 @@
 # How to use
 Set up your venv, and then use engine.py as the entrypoint.
 
-Specifics on how the *current* structure of this system is build, is in strategy.md.
+Specifics on how the *current* structure of this system is build, is in structure.md.
 
 # Strategies
 
