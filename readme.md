@@ -16,6 +16,7 @@ This attempts to find top of book arbitrage. Prelim tests show polymarket is too
 ```python strategy1.py```
 #### Next Steps for S1
 - Look deeper, accounting for both size and price to find the best ask/bid in a given yes/no
+- Start factoring in trading fees and gas 
 - Explore other types of arbitrage
 
 # Current Focus
