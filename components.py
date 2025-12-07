@@ -163,9 +163,10 @@ class Ledger:
             print(trade.to_row())
 
 
-
-
-
+@dataclass
+class Strategy:
+    # this needs to use signals somehow I think
+    Title: str = None
 
 
 

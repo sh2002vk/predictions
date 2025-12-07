@@ -2,6 +2,7 @@ import requests
 import json
 import re
 from typing import List, Dict, Optional, Tuple, Union
+from py_clob_client.client import ClobClient
 
 
 BASE_URL = "https://gamma-api.polymarket.com/events/slug"
@@ -70,6 +71,8 @@ def fetchBetsForDate(date_slug: str) -> List[Dict]:
         if parsed_prices is None:
             continue
 
+        print(f"\n{market}")
+
         yes_outcome_price, no_outcome_price = parsed_prices
 
         bet = {
@@ -82,9 +85,38 @@ def fetchBetsForDate(date_slug: str) -> List[Dict]:
             "volumeNum": market.get("volumeNum"),
             "yesOutcome": yes_outcome_price,
             "noOutcome": no_outcome_price,
+            "yesClobToken": market.get("clobTokenIds")[0],
+            "noClobToken": market.get("clobTokenIds")[1]
         }
         bets.append(bet)
 
     return bets
+
+
+class OrderBook:
+    def __init__(self):
+        self.host = "https://clob.polymarket.com"
+        self.chain_id = 137
+
+        self.client = ClobClient(
+            host=self.host,
+            chain_id=self.chain_id
+        )
+
+    async def getOrderBook(self, tokenId):
+        """ tokenId = CLOB (order book) token ID
+        Remember that:
+            bid = sell
+            ask = buy
+        """
+        orderBook = await self.client.getOrderBook(tokenId=tokenId)
+        print(orderBook)
+
+        # for i in orderBook["bids"]:
+        #     print(f"Bid: {i}")
+        #
+        # for i in orderBook["asks"]:
+        #     print(f"Ask: {i}")
+
 
 
