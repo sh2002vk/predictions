@@ -71,7 +71,9 @@ def fetchBetsForDate(date_slug: str) -> List[Dict]:
         if parsed_prices is None:
             continue
 
-        print(f"\n{market}")
+        if not market.get("clobTokenIds"):
+            continue
+        clobTokenIds = json.loads(market.get("clobTokenIds"))
 
         yes_outcome_price, no_outcome_price = parsed_prices
 
@@ -85,8 +87,8 @@ def fetchBetsForDate(date_slug: str) -> List[Dict]:
             "volumeNum": market.get("volumeNum"),
             "yesOutcome": yes_outcome_price,
             "noOutcome": no_outcome_price,
-            "yesClobToken": market.get("clobTokenIds")[0],
-            "noClobToken": market.get("clobTokenIds")[1]
+            "yesClobToken": clobTokenIds[0],
+            "noClobToken": clobTokenIds[1]
         }
         bets.append(bet)
 
@@ -103,20 +105,14 @@ class OrderBook:
             chain_id=self.chain_id
         )
 
-    async def getOrderBook(self, tokenId):
+    def getOrderBook(self, tokenId):
         """ tokenId = CLOB (order book) token ID
         Remember that:
             bid = sell
             ask = buy
         """
-        orderBook = await self.client.getOrderBook(tokenId=tokenId)
-        print(orderBook)
-
-        # for i in orderBook["bids"]:
-        #     print(f"Bid: {i}")
-        #
-        # for i in orderBook["asks"]:
-        #     print(f"Ask: {i}")
+        orderBook = self.client.get_order_book(tokenId)
+        return orderBook
 
 
 
