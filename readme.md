@@ -12,9 +12,16 @@ This attempts to find top of book arbitrage. Prelim tests show polymarket is too
   - if BID_YES + BID_NO > 1 then SELL. Because your profit will be ((BID_YES + BID_NO) - 1) > 0
   - if BID_YES + BID_NO <= 1 then DO NOT SELL. Because your profit will be ((BID_YES + BID_NO) - 1) < 0
 
+#### To install
+```pipenv install --dev```
+
 #### To execute 
-```python strategy1.py```
-#### Next Steps for S1
+```
+pipenv shell
+python strategy1.py
+```
+
+#### Next Steps for S2
 - Look deeper, accounting for both size and price to find the best ask/bid in a given yes/no
 - Start factoring in trading fees and gas 
 - Explore other types of arbitrage
