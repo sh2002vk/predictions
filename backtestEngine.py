@@ -5,6 +5,8 @@ from polymarket_connector import *
 from typing import Callable, List, Dict, Any, Optional
 from dataclasses import dataclass
 from grapher import *
+from strategies.rando import Rando
+from strategies.strategy import Strategy
 
 # Format for Strategy : Marketstate, Ledger -> TradeSignal (but note this only looks at a given state, not behind)
 
@@ -126,7 +128,7 @@ class BacktestEngine:
         
         return out
 
-    def run(self, start_ts: int, end_ts: int, interval: str, strategy: Callable, date: str, ffill: bool, free: bool): 
+    def run(self, start_ts: int, end_ts: int, interval: str, strategy: Strategy, date: str, ffill: bool, free: bool): 
         """
         TODO: - need to be able to execute MULTIPLE trade signals, instead of just one, per call to strategy function
         """
@@ -167,7 +169,7 @@ class BacktestEngine:
                     no_token=no_token,
                 )
 
-                trade_signal = strategy(market_state, self.ledger)  
+                trade_signal = strategy.compute(market_state, self.ledger)  
                 if trade_signal:
                     self.ledger.executeTrade(trade_signal, ticker, t)
 
@@ -204,19 +206,7 @@ class BacktestEngine:
             "snapshots": self.snapshots
         }
 
-
-def strategyRando(market_state: MarketState, ledger: Ledger):
-    if market_state.yes_price + market_state.no_price < 1.0:
-        return TradeSignal(
-            action="BUY",
-            side="YES",
-            quantity=10,
-            price=market_state.yes_price
-        )
-    return None
-    
-
 engine = BacktestEngine(initial_capital=100000)
-output = engine.run(start_ts=1765585170, end_ts=1766017170, interval=None, strategy=strategyRando, date="december-19", ffill=True, free=False)
+output = engine.run(start_ts=1765585170, end_ts=1766017170, interval=None, strategy=Rando(), date="december-19", ffill=True, free=False)
 
 snapshots_to_df(output)
