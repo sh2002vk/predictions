@@ -1,11 +1,9 @@
+import pandas as pd
+
 from components import Ledger, TradeSignal, MarketState
 from polymarket_connector import *
 from typing import Callable, List, Dict, Any, Optional
 from dataclasses import dataclass
-from collections import defaultdict
-import json
-import pandas as pd
-import random
 from grapher import *
 
 # Format for Strategy : Marketstate, Ledger -> TradeSignal (but note this only looks at a given state, not behind)

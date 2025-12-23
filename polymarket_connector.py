@@ -1,6 +1,6 @@
 import requests
 import json
-import re
+
 from typing import List, Dict, Optional, Tuple, Union
 from py_clob_client.client import ClobClient
 from market_parsers.app_store_rankings import parse_app_rankings
