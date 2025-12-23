@@ -129,6 +129,10 @@ class BacktestEngine:
         return out
 
     def run(self, start_ts: int, end_ts: int, interval: str, strategy: Callable, date: str, ffill: bool, free: bool): 
+        """
+        TODO: - need to be able to execute MULTIPLE trade signals, instead of just one, per call to strategy function
+        """
+        
         print("starting backtest engine")
         prices = self.build_price_panel(date=date, interval=interval, ffill=ffill, start_ts=start_ts, end_ts=end_ts, free=free)       
 
@@ -203,14 +207,13 @@ class BacktestEngine:
         }
 
 
-def strategyRando(marketState: MarketState, ledger: Ledger):
-    random_number = random.randint(1, 10)
-    if random_number == 2:
+def strategyRando(market_state: MarketState, ledger: Ledger):
+    if market_state.yes_price + market_state.no_price < 1.0:
         return TradeSignal(
             action="BUY",
             side="YES",
-            quantity=2,
-            price=marketState.yes_price
+            quantity=10,
+            price=market_state.yes_price
         )
     return None
     

@@ -5,6 +5,8 @@ Specifics on how the *current* structure of this system is build, is in structur
 
 # Backtesting Engine
 
+Note: please go to /strategies after to see a todo list of improvements to implement and notes
+
 file: ```backtestEngine.py```
 - price_panel: the df that contains records from start to end of t,token,no,yes,ticker,yes_token,no_token with timestamp and token as the index
 - the strategy should be passed in, as a *callable* paramter
