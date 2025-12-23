@@ -204,17 +204,18 @@ class BacktestEngine:
 
 
 def strategyRando(marketState: MarketState, ledger: Ledger):
-    random_number = random.randint(1, 50)
+    random_number = random.randint(1, 10)
     if random_number == 2:
         return TradeSignal(
             action="BUY",
             side="YES",
-            quantity=5,
+            quantity=2,
             price=marketState.yes_price
         )
     return None
     
 
 engine = BacktestEngine(initial_capital=100000)
-output = engine.run(start_ts=1765929532, end_ts=1766102332, interval=None, strategy=strategyRando, date="december-19", ffill=True, free=False)
+output = engine.run(start_ts=1765585170, end_ts=1766017170, interval=None, strategy=strategyRando, date="december-19", ffill=True, free=False)
+
 snapshots_to_df(output)

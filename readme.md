@@ -8,8 +8,10 @@ Specifics on how the *current* structure of this system is build, is in structur
 file: ```backtestEngine.py```
 - price_panel: the df that contains records from start to end of t,token,no,yes,ticker,yes_token,no_token with timestamp and token as the index
 - the strategy should be passed in, as a *callable* paramter
+- currently, there is a random strategy that generates buy signals, to test out the backtesting system
+- at the end, it also graphs the output of the backtest run. 
 
-Run ```python backtestEngine.py``` to generate a price_panel.csv
+Run ```python backtestEngine.py``` to try out a random strategy
 
 # Strategies
 
