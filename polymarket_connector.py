@@ -26,6 +26,42 @@ class PolymarketConnector:
         self.free_apps = "1-free-app-in-the-us-apple-app-store-on-"     # slug of market, move to constants later
         self.paid_apps = "1-paid-app-in-the-us-apple-app-store-on-"     # slug of market, move to constants later
     
+    def get_market_data(self, slug: str, save_to_file: bool = False) -> Dict:
+        """
+        Generic method to fetch market data from any Polymarket market.
+        
+        Args:
+            slug: The market slug (e.g., "1-free-app-in-the-us-apple-app-store-on-december-12")
+            save_to_file: If True, saves raw response to 'test.json' for debugging
+        
+        Returns:
+            Raw JSON response from Polymarket API containing market data
+        """
+        url = f"{self.base_url}/{slug}"
+        
+        response = requests.get(url)
+        response.raise_for_status()
+        data = response.json()
+        
+        if save_to_file:
+            with open('test.json', 'w') as file:
+                json.dump(data, file)
+        
+        return data
+    
+    def get_markets_from_slug(self, slug: str) -> List[Dict]:
+        """
+        Get the markets list from a market slug.
+        
+        Args:
+            slug: The market slug
+        
+        Returns:
+            List of market dictionaries from the API response
+        """
+        data = self.get_market_data(slug)
+        return data.get("markets", [])
+    
     def get_app_store_rankings(self, free: bool, date: str):
         # free -> if true is free if false is paid
         if free:
