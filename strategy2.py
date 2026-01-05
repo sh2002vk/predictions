@@ -1,4 +1,4 @@
-## STRATEGY 3
+## STRATEGY 2
 
 # This strategy is looking for order book arbitrage, within the same market but across predictions. 
 
