@@ -24,7 +24,3 @@ Thumbs.db
 # Project specific
 *.json
 *.csv
-
-
-Pipfile.lock
-Pipfile
